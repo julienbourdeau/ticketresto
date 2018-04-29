@@ -5,29 +5,31 @@
 	
     <?php
 		
-		update_option("LAST_BACKUP", date('D d F Y'));
-		
-		
-		dumpMySQL('localhost', 'root', '', 'ticketresto', 3);
-
-
-		update_infos();
-
+		dumpMySQL('localhost', 'root', '', 'piggybox', 3);
 		
 		sleep(1);
 		
 	?>
     
-	<div id="content">
+
+	<div id="content" class="container">
+
+		<div class="row">
+			<div class="span12">
 	
-    	<?php backup_filelist(); ?>
-        
-        <p>
-            Pour ajouter un fichier à la sauvegarde automatique, il suffit d'ajouter 
-            son chemin complet Windows (par exemple: ) dans le fichier 'file-to-save.txt' 
-            qui se trouve dans le dossier racine de l'application (localhost/ticketresto).<br />
-            Attention le fichier doit IMPERATIVEMENT terminer par un retour à la ligne !
-        </p>
+	
+		    	<?php backup_filelist(); ?>
+		        
+		        <p>
+		            Pour ajouter un fichier Ã  la sauvegarde automatique, il suffit d'ajouter 
+		            son chemin complet Windows (par exemple: ) dans le fichier 'file-to-save.txt' 
+		            qui se trouve dans le dossier racine de l'application (localhost/ticketresto).<br />
+		            Attention le fichier doit IMPERATIVEMENT terminer par un retour Ã  la ligne !
+		        </p>
+		        
+
+        	</div>
+        </div>
     	
 	</div>
 	

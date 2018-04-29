@@ -3,36 +3,41 @@
 	<?php include('header.php'); ?>
 	
 	
-	<div id="content">
+	<div id="content" class="container">
+		<div class="row">
+			<div class="span10 offset1">
 	
-		<h2><?php echo $c['0']; ?> éléments trouvés</h2>
-		
-		
-		<table border="0" cellspacing="0">
-		  <tr>
-			<th scope="col" width="150px">NOM</th>
-			<th scope="col" width="150px">PRENOM</th>
-			<th scope="col" width="80px">SOLDE</th>
-			<th scope="col" width="420px">COMMENTAIRE</th>
-		  </tr>
-	
-    <?php $i = 0;
-			while( $data = mysql_fetch_array($res) ) { ?>
-		
-		
-		  <tr height="32px" class="<?php if($i%2) echo "even"; else echo "odd"; ?> highlight" onclick="window.location.href='fiche.php?id=<?php echo $data['id']; ?>';">
-			<td><?php echo $data['nom']; ?></td>
-			<td><?php echo $data['prenom']; ?></td>
-			<td><?php echo $data['solde']; ?></td>
-			<td><?php echo $data['commentaire']; ?></td>
-		  </tr>
-		  
-	<?php	$i++;
-	}
-	?>
-		  
-		</table>
+				<h2><?php echo $c['0']; ?> personnes trouvÃ©es</h2>
+				
+				
+				<table class="table table-striped table-bordered">
+				  <tr>
+					<th>Nom</th>
+					<th>PrÃ©nom</th>
+					<th>Solde</th>
+					<th>Commentaire</th>
+				  </tr>
 			
+		    <?php
+					while( $data = mysql_fetch_array($res) ) : 
+			?>
+				
+				
+						<tr class="" onclick="window.location.href='fiche.php?id=<?php echo $data['id']; ?>';">
+							<td class="uppercase"><?php echo $data['nom']; ?></td>
+							<td class="caps"><?php echo $data['prenom']; ?></td>
+							<td><?php echo $data['solde']; ?></td>
+							<td><?php echo $data['commentaire']; ?></td>
+						</tr>
+				  
+			<?php
+					endwhile;
+			?>
+				  
+				</table>
+			
+			</div>
+		</div>
 		
 	</div>
 	

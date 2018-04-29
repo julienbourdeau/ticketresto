@@ -13,15 +13,40 @@ function get_clients_ordered(){
 	return query_safe($req);
 }
 
-function update_client($id, $nom, $prenom, $adresse, $email, $commentaire){
-	$req = "UPDATE clients SET nom='".s($nom)."' , prenom='".s($prenom)."' , adresse='".s($adresse)."' , email='".s($email)."' , commentaire='".s($commentaire)."' WHERE id='".s($id)."'";
+function add_client($nom, $prenom, $adresse, $email, $telephone, $commentaire, $valticket, $solde) {
+	if(is_null($solde)) $solde = 0;
 	
-	$result = mysql_query($req);
-	if($result) {
-		echo '<p class="ok">Le client &laquo; '.stripslashes($nom).' &raquo; a bien été modifié</p><br>';
-	} else {
-		echo "Requete invalide : ".mysql_error();
+	$req = sprintf("INSERT INTO clients (nom, prenom, adresse, email, telephone, commentaire, valticket, solde, timestamp) VALUES ('%s' ,'%s', '%s', '%s' ,'%s','%s','%F', '%F', '%F')",
+		s($nom),
+		s($prenom),
+		s($adresse),
+		s($email),
+		s($telephone),
+		s($commentaire),
+		s($valticket),
+		round($solde, 2),
+		time() );
+	
+	$res = query_safe($req);
+
+	if($res){
+		return mysql_fetch_array( query_safe("SELECT LAST_INSERT_ID()") );
 	}
+}
+
+function update_client($id, $nom, $prenom, $adresse, $email, $telephone, $commentaire, $valticket) {
+	
+	$req = sprintf("UPDATE clients SET nom='%s' , prenom='%s' , adresse='%s', email='%s' , telephone='%s' , commentaire='%s' , valticket='%F' WHERE id=%F",
+		s($nom),
+		s($prenom),
+		s($adresse),
+		s($email),
+		s($telephone),
+		s($commentaire),
+		s($valticket),
+		s($id) );
+
+	return query_safe($req);
 }
 
 function get_by_nom($nom) {
@@ -36,36 +61,17 @@ function get_by_id($id) {
 
 function update_solde($id, $newsolde){
 	$timestamp = time();
-	$date = date("d-M-y");
+	//$newsolde = $newsolde * 1;
+	//var_dump($newsolde); die();
+	//var_dump(round($newsolde, 2)); die();
 
-	$req = "UPDATE clients SET solde='".round($newsolde, 2)."', timestamp='$timestamp', date='$date' WHERE id='$id'";
+	$req = "UPDATE clients SET solde='".round($newsolde, 2)."', timestamp='$timestamp' WHERE id='$id'";
 	query_safe($req);
 }
 
 function count_by_nom($nom){
 	$req = "SELECT COUNT(nom) FROM clients WHERE nom LIKE '%" .s($nom). "%'";
 	return mysql_fetch_array(query_safe($req));
-}
-
-function add_client($nom, $prenom, $adresse, $email, $commentaire, $solde) {
-	if(is_null($solde)) $solde = 0;
-	
-	$req = "INSERT INTO clients (nom, prenom, adresse, email, commentaire, date, timestamp,  solde) VALUES ('";
-	$req .= s($nom)."', '";
-	$req .= s($prenom)."', '";
-	$req .= s($adresse)."', '";
-	$req .= s($email)."', '";
-	$req .= s($commentaire)."', '";
-	$req .= date("d-M-y")."', '";
-	$req .= time()."', '";
-	$req .= round($solde, 2)."')";
-	
-	$result = mysql_query($req);
-	if($result) {
-		echo '<p class="ok">Le client &laquo; '.stripslashes($nom).' &raquo; a bien été ajouté</p><br>';
-	} else {
-		echo "Requete invalide : ".mysql_error();
-	}
 }
 
 function delete_client_by_id($id) {
@@ -79,20 +85,18 @@ function delete_historique_by_id_client($id) {
 }
 
 function get_historique_by_client($idClient){
-	$req = sprintf("SELECT date, modif, prevsolde FROM historique WHERE client = %F ORDER BY timestamp DESC LIMIT 6", $idClient);
+	$req = sprintf("SELECT timestamp, modif, prevsolde, newsolde FROM historique WHERE client = %F ORDER BY timestamp DESC LIMIT 6", $idClient);
 	return query_safe($req);
 }
 
-function add_action_historique($idClient, $modif, $prevsolde) {
-	$date = date("d-M-y");
-	$timestamp = time();
-
-	$req = sprintf("INSERT INTO historique (client, date, modif, prevsolde, timestamp) VALUES (%F, '%s', %F, %F, %F)",
+function add_action_historique($idClient, $prevsolde, $newsolde) {
+	$req = sprintf("INSERT INTO historique (client, modif, prevsolde, newsolde, timestamp) VALUES (%F, %F, %F, %F, %F)",
 	$idClient,
-	$date,
-	$modif,
+	$newsolde - $prevsolde,
 	$prevsolde,
-	$timestamp);
+	$newsolde,
+	time() );
+
 	query_safe($req);
 }
 
@@ -113,42 +117,70 @@ function define_all_options(){
 }
 
 
-function update_infos() {
+function get_updated_stats() {
+
 	$count_entries_clients = mysql_fetch_array(query_safe("SELECT COUNT(*) FROM clients"));
-	update_option("TOTAL_ENTRIES_CLIENTS", $count_entries_clients['0']);	
-	
 	$sum = mysql_fetch_array(query_safe("SELECT SUM(solde) AS total FROM clients"));
-	update_option("TOTAL_VALUE", $sum['0']);
-
 	$null_value_nb = mysql_fetch_array(query_safe("SELECT count(*) FROM clients WHERE solde=0"));
-	update_option("NULL_VALUE_NB", $null_value_nb['0']);
-
 	$neg_value_nb = mysql_fetch_array(query_safe("SELECT count(*) FROM clients WHERE solde<0"));
-	update_option("NEG_VALUE_NB", $neg_value_nb['0']);
-
 	$gt10_value_nb = mysql_fetch_array(query_safe("SELECT count(*) FROM clients WHERE solde>=10"));
-	update_option("GT10_VALUE_NB", $gt10_value_nb['0']);
-
 	$st5_value_nb = mysql_fetch_array(query_safe("SELECT count(*) FROM clients WHERE solde>0 AND solde<5"));
-	update_option("ST5_VALUE_NB", $st5_value_nb['0']);
-
 	$gt5_value_nb = mysql_fetch_array(query_safe("SELECT count(*) FROM clients WHERE solde>=5 AND solde<10"));
-	update_option("GT5_VALUE_NB", $gt5_value_nb['0']);
-
-	$query2 = "SELECT COUNT(*) FROM clients WHERE timestamp = 0";
-	$res2 = mysql_fetch_array(query_safe($query2));
-
-	$query = "SELECT COUNT(*) FROM clients WHERE NOT EXISTS (SELECT client FROM historique WHERE historique.id = clients.id)";
-	$res = mysql_fetch_array(query_safe($query));
 
 
-	//var_dump($res);
-	//var_dump($res2);
+	$stats_global = array(
+					'TOTAL_ENTRIES_CLIENTS' => $count_entries_clients[0],
+					'TOTAL_VALUE' => round($sum[0], 2),
+					'NULL_VALUE_NB' => $null_value_nb[0],
+					'NEG_VALUE_NB' => $neg_value_nb[0],
+					'GT10_VALUE_NB' => $gt10_value_nb[0],
+					'ST5_VALUE_NB' => $st5_value_nb[0],
+					'GT5_VALUE_NB' => $gt5_value_nb[0]
+			);
+
+	update_option('STATS_GLOBAL', serialize($stats_global));
+
+	//var_dump($stats_global);
 	//die();
-	
-	//return array("total_value" => $sum['0'],
-	//			 "total_entries_clients" => $count_entries_clients['0']);
+	return $stats_global;
+
 }
+
+function get_updated_stats_client() {
+
+	$greater_client = mysql_fetch_array(query_safe("SELECT * FROM clients WHERE solde = (SELECT MAX(solde) FROM clients)"));
+
+
+	$stats_client = array(
+					'GREATER_AMOUNT' => $greater_client['solde'],
+					'GREATER_AMOUNT_NAME' => $greater_client['prenom'] . ' ' . $greater_client['nom'],
+					'GREATER_AMOUNT_ID' => $greater_client['id']
+			);
+
+	update_option('STATS_CLIENT', serialize($stats_client));
+
+	return $stats_client;
+
+}
+
+function get_list_client_negative(){
+	return query_safe("SELECT * FROM clients WHERE solde<0");
+}
+
+
+
+function calc_time_diff($timestamp, $unit = NULL, $show_unit = TRUE) {
+	if($timestamp != 0){
+		$days = round((time() - $timestamp) / 60 / 60 / 24); // How many hours have elapsed
+    	return "Il y a <strong>$days jours</strong>";
+	} else {
+		return "N'est venue qu'une fois!";
+	}
+    
+}
+
+
+
 
 
 
@@ -177,7 +209,12 @@ function backup_filelist(){
 		
 		//copy
 		if (!copy($file, $newfile)) {
-			echo "<p class='alert'>La copie du fichier a échoué...</p>\n";
+
+			echo '<div class="alert alert-error">';
+			  echo '<button class="close" data-dismiss="alert">Ã—</button>';
+			  echo '<strong>Attention!</strong> La copie d\'un fichier a Ã©chouÃ©...';
+			echo '</div>';
+
 			$error = true;
 		}
 		
@@ -185,24 +222,15 @@ function backup_filelist(){
 		
 	//display final message
 	if(!$error){
-		echo "<p class='info'>Tous les fichiers ont été sauvegardé sans problème.</p>";
+		echo '<div class="alert alert-success">';
+		  echo '<button class="close" data-dismiss="alert">Ã—</button>';
+		  echo '<strong>Bravo!</strong> Tous les fichiers ont Ã©tÃ© sauvegardÃ© sans problÃ¨me.';
+		echo '</div>';
 	}
 	
 	//close file
 	fclose($list);
 	
-}
-
-
-
-function calc_time_diff($timestamp, $unit = NULL, $show_unit = TRUE) {
-	if($timestamp != 0){
-		$days = round((time() - $timestamp) / 60 / 60 / 24); // How many hours have elapsed
-    	return "Il y a <strong>$days jours</strong>";
-	} else {
-		return "N'est venue qu'une fois!";
-	}
-    
 }
 
 

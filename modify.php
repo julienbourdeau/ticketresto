@@ -1,54 +1,62 @@
+<?php
+	
+	require_once 'lib/functions.php';
 
-	<?php include('head.php'); ?>
-	<?php include('header.php'); ?>
-	
-	
-	<div id="content">
-	
-		<?php 
-		
-			if(isset($_GET['id'])) {
-				$data = get_by_id($_GET['id']);
-			}
-			
-			if(isset($_POST['nom'])) {
-				update_client($_POST['id'], $_POST['nom'], $_POST['prenom'], $_POST['adresse'], $_POST['email'], $_POST['commentaire']);
-				$data = get_by_id($_POST['id']);
-			}
-		?>
-		
-		<h2>Ajouter un client</h2>
-		
-		<form method="post" action="modify.php">
-		
-			<input type="hidden" name="id" value="<?php echo $data['id']; ?>" />
-			
-			<label for="nom">Nom *</label>
-			<input type="text" name="nom" value="<?php echo $data['nom']; ?>" /><br />
-			
-			<label for="prenom">Prenom *</label>
-			<input type="text" name="prenom" value="<?php echo $data['prenom']; ?>" /><br />
-			
-			<label for="adresse">Adresse</label>
-			<input type="text" name="adresse" value="<?php echo $data['adresse']; ?>" /><br />
-			
-			<label for="email">Email</label>
-			<input type="text" name="email" value="<?php echo $data['email']; ?>" /><br />
-			
-			<label for="commentaire">Commentaire</label>
-			<textarea name="commentaire"><?php echo $data['commentaire']; ?></textarea><br />
-			
-			<label></label>
-			<input type="submit" value="Modifier" />
-			
-		
-		</form>
-		
-			
-		
-	</div>
-	
-	
-	<?php include('footer.php'); ?>
-	
+	if(isset($_POST['action'])){
+		switch ($_POST['action']) {
 
+			case 'create':
+				$id = add_client(		
+								$_POST['nom'], 
+								$_POST['prenom'], 
+								$_POST['adresse'], 
+								$_POST['email'], 
+								$_POST['telephone'], 
+								$_POST['commentaire'], 
+								$_POST['valticket'], 
+								$_POST['solde']
+							);
+				if ($id) {
+					header( "Location: fiche.php?notif=10&id=" . $id['LAST_INSERT_ID()'] );
+					exit();
+				} else {
+					header( "Location: addForm.php?notif=40" );
+					exit();
+				}
+				
+				break;
+			
+
+			case 'update':
+				update_client(	$_POST['id'], 
+								$_POST['nom'], 
+								$_POST['prenom'], 
+								$_POST['adresse'], 
+								$_POST['email'], 
+								$_POST['telephone'], 
+								$_POST['commentaire'], 
+								$_POST['valticket']
+							);
+				header("Location: fiche.php?notif=11&id=" . $_POST['id']);
+				exit();
+				break;
+			
+
+			case 'delete':
+				$id = $_POST['id'];
+				$h = delete_historique_by_id_client($id);
+				$c = delete_client_by_id($id);
+				if($h && $c) {
+					header( "location: search.php?notif=13" );
+					exit();
+				} else {
+					header( "location: modifyForm.php?notif=41&id=" . $id);
+					exit();
+				}
+				break;
+			
+			default:
+				# code...
+				break;
+		}
+	}

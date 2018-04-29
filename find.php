@@ -10,17 +10,14 @@
 		//echo $c['0'];
 		
 		if($c['0'] < 1) {
-			include('search.php');
+			header("Location: search.php?notif=44");
 		}
 		if($c['0'] == 1) {
 			$data = mysql_fetch_array($res);
-			include('fiche.php');
+			header("Location: fiche.php?id=".$data['id']);
 		}
 		if($c['0'] > 1) {
 			include('list.php');
 		}
 		
-	}
-	
-?>
-		
+	}	

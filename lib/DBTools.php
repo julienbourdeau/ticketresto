@@ -5,7 +5,7 @@ if (!isset($handle)) {
     if (!$handle) {
         die("Cannot connect to mysqlDB : ".mysql_error());
     }
-	mysql_select_db("ticketrestov1");
+	mysql_select_db("piggybox");
 }
 
 // effetcue une requete sur la BDD et quitte en cas d'erreur
