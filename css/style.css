@@ -1,0 +1,523 @@
+/*
+ *
+ *   Main CSS sheet
+ *
+ */
+
+
+html, body {
+margin:0;
+padding:0;
+background: #f9f9f9;
+font-family: Helvetica, Arial, sans-serif;
+font-size: 14px;
+}
+
+h1, h2 {
+	color: #252525;
+}
+
+h3 {
+	color: #a31b1b
+}
+
+h1 {
+	font-size: 30px;
+}
+
+h2 {
+	font-size: 22px;
+}
+
+h3 {
+	margin: 15px;
+	font-size:14px;
+	text-transform: uppercase;
+}
+
+hr {
+	background: #a31b1b;
+	height: 1px;
+	margin: 5px 0 0 0;
+	padding: 0;
+	border: none;
+}
+
+
+.clearfix {
+	*zoom: 1; /* triggers has haslayout in older versions of iE */
+}
+.clearfix:after {
+	content: " ";
+	display: block;
+	clear: both;
+	visibility: hidden;
+	font-size: 0;
+	height: 0;
+}
+
+
+#maincontainer {
+	width: 800px;
+	margin: 8px auto 16px auto;
+
+}
+
+a {
+	background-color: #252525;
+	color: #f9f9f9;
+	text-decoration: none;
+	padding: 0 2px 0 2px;
+}
+
+a:hover {
+	background-color: #f9f9f9;
+	color: #252525;
+}
+
+a.img {
+	background: transparent;
+}
+
+p {
+	text-align: Justify;
+	margin: 15px;
+}
+
+p.ptitle {
+	margin: 5px;
+	padding: 0;
+	color: #a31b1b;
+}
+ul {
+	padding: 1px 0 1px 24px;
+	list-style-type: square;
+}
+ul li {
+	margin: 10px;
+}
+
+th {
+	background: #252525;
+	color: #fff;
+	text-align: left;
+}
+
+td, th {
+	padding-left: 5px;
+}
+
+tr.highlight:hover {
+	background: #a31b1b;
+	color: #fff;
+}
+
+.clear {
+	clear: both;
+}
+
+.left400 {
+	float: left;
+	width: 400px;
+}
+.right320 {
+	float: right;
+	width: 400px;
+}
+.black {
+	background: #252525;
+	color: #f9f9f9;
+}
+
+.left {
+	float: left;
+}
+.right {
+	float: right;
+}
+
+/*----- Header -------------------------------------*/
+
+#toolbox {
+	position: fixed;
+	float: left;
+	top: 100px;
+	left: 15px;
+}
+#toolbox a {
+	background: none;
+}
+#toolbox a:hover {
+	background: none;
+}
+
+#header {
+
+	
+
+}
+
+.pagetitle {
+	float: left;
+	width: 800px;
+	margin: 6px 0 6px 0;
+	padding: 0;
+	font-family: "Time new roman";
+	font-size: 55px;
+}
+
+.titlefirstletter {
+	font-size: 80px;
+}
+
+.headerbutton {
+	margin-right: 12px;
+	padding: 4px 4px 4px 20px;
+	float: right;
+	font-size: 14px;
+}
+/*#update a{
+	background: url('../img/update.png') left no-repeat #fef6d2;
+	color: #5D88C8;
+	border: 1px solid #efe3ae;
+}
+#save a {
+	background: url('../img/save.png') left no-repeat #EDFCD5;
+	color: #5D88C8;
+	border: 1px solid #d4ebaf;
+}*/
+
+
+	/*----- NAVigation -------------------------------- */
+
+	.navcontainer {
+		margin: 0px 0px 45px 0px; 
+		height: 39px;
+		border-bottom: 1px solid #252525;		
+		padding: 0px 0px 6px 0px; 
+		font-family: arial, helvetica, sans-serif;
+		text-align: right;
+		background-color: #252525;
+	}
+
+	ul.navlist {
+		list-style: none; 
+		padding: 0; 
+		margin: 0px; 
+		background-color: #252525;
+		font-size: 12px;
+		color: #fff;
+		font-weight: bold;
+	}
+		
+	ul.navlist li a, ul.navlist li a:visited {
+		text-align: left;
+		float: left;  
+		width: 120px;
+		margin: 0px 0px 0px 0px; 
+		padding: 7px 5px 10px 7px; 
+		border-left: 1px solid #CCC;
+		background-color: #252525;
+		color: #fff;
+		display: block; 
+	}
+	
+	ul.navlist li a:hover, ul.navlist li a:visited a:hover {
+		background-color: #fff;
+		color: #a31b1b;
+	}
+	
+	/* subnav */
+	.subnavcontainer {
+		margin: 20px 0px 0px 0px; 
+		height: 28px;
+		border-bottom: 1px solid #252525;		
+		padding: 0px 0px 0px 0px; 
+		font-family: arial, helvetica, sans-serif;
+		text-align: right;
+		background-color: #252525;
+	}
+	
+	ul.subnavlist {
+		list-style: none; 
+		padding: 0; 
+		margin: 0px; 
+		background-color: #252525;
+		font-size: 12px;
+		color: #fff;
+		font-weight: bold;
+	}
+		
+	ul.subnavlist li a {
+		text-align: left;
+		float: left;  
+		margin: 0px 0px 0px 0px; 
+		padding: 7px; 
+		border-left: 1px solid #CCC;
+		background-color: #252525;
+		color: #fff;
+		display: block; 
+	}
+	
+	ul.subnavlist li a:visited {
+		text-align: left;
+		float: left;  
+		margin: 0px 0px 0px 0px; 
+		padding: 7px; 
+		border-left: 1px solid #CCC;
+		background-color: #252525;
+		color: #fff;
+		display: block; 
+	}
+	
+	ul.subnavlist li a:hover {
+		background-color: #fff;
+		color: #252525;
+	}
+
+#lastupdate {
+	color: #f9f9f9;
+	font-size: 11px;
+	font-style:italic;
+	padding: 0 12px 0 0;
+}
+	
+	
+/*----- Content ----------------------------------------*/
+
+#content {
+
+
+}
+
+#letterlink {
+	width: 100%;
+	text-align:center;
+	margin: 0 0 16px 0;
+	font-size: 17px;
+}
+#letterlink a {
+	color: #a31b1b;
+	background: none;
+}
+#letterlink a:hover {
+	background: #a31b1b;
+	color: #f9f9f9;
+}
+
+	/* FICHE  ---------------------------------------*/
+	
+	#solde {
+		float: right;
+		font-size: 54px;
+		padding: 16px 26px;
+	}
+	#lasttime {
+		margin-top: 12px;
+		font-size: 16px;
+		text-align: right;
+		color: #252525;
+	}
+	.positive {
+		color: #393;
+	}
+	.negative {
+		color: #C30;
+	}
+	
+	#client {
+		margin-bottom: 30px;
+	}
+	
+	#client table tr td {
+		padding: 5px;
+	}
+	td.td1 {
+		width:70px;		
+		text-transform: uppercase;
+		text-align: right;
+		font-size: 60%;
+		font-family: "time new roman";
+		color: #a31b1b;
+	}
+	
+	.modification {
+		margin: 10px 30px;
+		float: left;
+		width: 330px;
+		margin-right: 20px;
+	}
+	.modification input[type=text] {
+		margin: 6px 0;
+		padding: 2px;
+		width: 70px;
+		height: 28px;
+		font-size: 22px;
+	}
+	
+	.modification input[type=text]:focus {
+		border: 2px solid #a31b1b;
+	}
+	
+	#historique {
+		width: 350px;
+		margin: 30px 30px;
+	}
+	
+	
+	/* table affichage table ------------------------*/
+	
+	tr.even {
+		background: #ddd;
+	}
+	
+	tr.odd {
+		background: #eee;
+	}
+
+
+		
+	/* Home page ----------------------------------*/
+	
+	#homeright {
+		width: 225px;
+		padding: 0 0 30px 24px;
+		border-left: 1px solid #252525;
+	}
+	
+	#homeleft {
+		width: 525px;
+		padding-right: 25px;
+	}
+
+
+
+/*----- Formulaire ----------------------------------------*/
+
+label
+{
+	float: left;
+	width: 130px;
+	padding-right: 20px;
+	padding-top: 8px;
+	text-transform: uppercase;
+	text-align: right;
+	font-size: 10px;
+	font-family: "time new roman";
+	color: #a31b1b;
+}
+
+input[type=submit] {
+	margin: 12px 0 6px 0;
+	padding: 3px 7px;
+	background: #252525;
+	color: #fff;
+	border: 1px solid #cecece;
+}
+
+input[type=text] {
+	width: 400px;
+	height: 20px;
+	margin: 5px 0;
+	font-size: 16px;
+}
+
+textarea {
+	width: 400px;
+	height: 40px;
+	margin: 5px 0;
+	font-size: 16px;
+}
+
+input.largeinput {
+	width: 450px;
+	height: 36px;
+	font-size: 36px;
+	margin: 10px 30px;
+	padding: 1px;
+	padding: 2px;
+}
+
+textarea:focus
+{
+	border: 2px solid #a31b1b;
+	padding: 2px;
+}
+
+input:focus
+{
+	border: 2px solid #a31b1b;
+}
+
+.formitem {
+	margin-top: 7px;
+}
+
+#cmdarea {
+	margin-left: 68px;
+}
+
+#submitright {
+	margin-left: 640px;
+}
+
+
+
+/*----- Footer ----------------------------------------*/
+
+
+#footer {
+	height: 30px;
+	width: 800px;
+	text-align: center;
+	/*position:fixed;*/
+	height: 40px;
+	top: 100%;
+	margin-top: 70px;
+}
+
+
+
+/*------------P BOX -----------------------------------------*/
+
+p.alert, p.ok, p.info, p.note { margin:10px 0 10px 0; padding:9px 10px 9px 36px; }
+
+p.alert { border-top:1px solid #f0baa2; border-bottom:1px solid #f0baa2; background:#ffd9c8 url(../img/alert.png) no-repeat 12px 13px; }
+p.ok { border-top:1px solid #d4ebaf; border-bottom:1px solid #d4ebaf; background:#edfcd5 url(../img/ok.png) no-repeat 10px 13px; }
+p.info { border-top:1px solid #ccc; border-bottom:1px solid #ccc; background:#eee url(../img/info.png) no-repeat 12px 13px; }
+p.note { border-top:1px solid #efe3ae; border-bottom:1px solid #efe3ae; background:#fef6d2 url(../img/note.png) no-repeat 14px 13px; margin:10px 0 10px 0; padding:9px 10px 9px 36px; }
+
+
+
+/*------------Buttons -----------------------------------------*/
+
+a.button {
+    background: transparent url('../img/bg_button_a.gif') no-repeat scroll top right;
+    color: #444;
+    display: block;
+    float: left;
+    font: normal 12px arial, sans-serif;
+    height: 24px;
+    margin-right: 6px;
+    padding-right: 18px; /* sliding doors padding */
+    text-decoration: none;
+}
+
+a.button span {
+    background: transparent url('../img/bg_button_span.gif') no-repeat;
+    display: block;
+    line-height: 14px;
+    padding: 5px 0 5px 18px;
+} 
+
+a.button:active {
+    background-position: bottom right;
+    color: #000;
+    outline: none; /* hide dotted outline in Firefox */
+}
+
+a.button:active span {
+    background-position: bottom left;
+    padding: 6px 0 4px 18px; /* push text down 1px */
+} 
+
